@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 import tw from "tailwind-react-native-classnames";
 import { selectDestination, selectOrigin } from "../slices/navSlice";
 import { useSelector } from "react-redux";
@@ -28,19 +28,30 @@ const Map = () => {
       initialRegion={{
         latitude: origin.lat,
         longitude: origin.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       }}
     >
-      {/* {origin && destination && (
-      <MapViewDirections
-        origin="Some origin here"
-        destination="Some destination here"
-        apikey="<insert google key>"
-        strokeWidth={3}
-        strokeColor="black"
-      />
-    )} */}
+      {/* <Polyline
+        coordinates={[
+          { latitude: 37.8025259, longitude: -122.4351431 },
+          { latitude: 37.7896386, longitude: -122.421646 },
+          { latitude: 37.7665248, longitude: -122.4161628 },
+          { latitude: 37.7734153, longitude: -122.4577787 },
+          { latitude: 37.7948605, longitude: -122.4596065 },
+          { latitude: 37.8025259, longitude: -122.4351431 },
+        ]}
+        strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+        strokeColors={[
+          "#7F0000",
+          "#00000000", // no color, creates a "long" gradient between the previous and next coordinate
+          "#B24112",
+          "#E5845C",
+          "#238C23",
+          "#7F0000",
+        ]}
+        strokeWidth={20}
+      /> */}
 
       {origin && (
         <Marker

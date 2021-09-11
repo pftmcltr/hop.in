@@ -42,7 +42,6 @@ const NavFavourites = () => {
           disabled={!origin}
           onPress={() => {
             dispatch(setDestination({ lat, lng }));
-            // navigation.navigate("MapScreen");
           }}
           style={tw`flex-row items-center py-5`}
         >

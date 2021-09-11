@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, SafeAreaView } from "react-native";
+import tw from "tailwind-react-native-classnames";
 
 const EatScreen = () => {
   return (
     <SafeAreaView>
-      <Text>Hello there</Text>
+      <Text style={tw`text-black`}>Hello there</Text>
     </SafeAreaView>
   );
 };
