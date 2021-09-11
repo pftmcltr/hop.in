@@ -23,7 +23,7 @@ const NavigateCard = () => {
       <View style={tw`border-t border-gray-200`}>
         <TextInput
           autoCompleteType="street-address"
-          style={tw`p-3 bg-gray-100 mx-4 mt-5 mb-0`}
+          style={tw`p-3 rounded-md bg-gray-100 mx-4 mt-5 mb-0`}
           placeholder="To Where? (autocomplete off)"
           onSubmitEditing={() => {
             dispatch(
@@ -37,7 +37,7 @@ const NavigateCard = () => {
           defaultValue=""
         />
       </View>
-      <View style={tw`mx-2`}>
+      <View style={tw`mx-4`}>
         <NavFavourites />
       </View>
 

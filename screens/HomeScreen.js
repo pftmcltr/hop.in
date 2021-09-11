@@ -48,9 +48,9 @@ const HomeScreen = () => {
         <NavFavourites />
       </View>
 
-      <View style={tw`mt-auto mx-16 mb-5`}>
+      <View style={tw`mt-auto mx-5 mb-5`}>
         <TouchableOpacity
-          style={tw`bg-gray-700 rounded-full px-3 py-2`}
+          style={tw`bg-gray-700  px-3 py-2`}
           onPress={handleAlert}
         >
           <Text style={tw`text-center text-white text-base`}>
