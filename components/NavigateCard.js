@@ -7,8 +7,8 @@ import {
   View,
   FlatList,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import { setDestination } from "../slices/navSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectDestination, setDestination } from "../slices/navSlice";
 import tw from "tailwind-react-native-classnames";
 import NavFavourites from "./NavFavourites";
 import { Icon } from "react-native-elements";
@@ -18,7 +18,7 @@ import axios from "axios";
 const NavigateCard = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
+  const destination = useSelector(selectDestination);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -56,7 +56,7 @@ const NavigateCard = () => {
         <TextInput
           placeholderTextColor="gray"
           style={tw`p-3 mt-5 mb-1 mx-4 text-base border border-gray-500 rounded-md text-white`}
-          placeholder="Where to? (approximate location)"
+          placeholder="Where to?"
           onChangeText={(input) => changeHandler(input)}
           value={query}
         />
@@ -96,8 +96,11 @@ const NavigateCard = () => {
         style={tw`flex-row bg-gray-900 justify-evenly py-2 mt-auto border-t border-gray-700`}
       >
         <TouchableOpacity
+          disabled={!destination}
           onPress={() => navigation.navigate("RideOptionsCard")}
-          style={tw`bg-blue-900 flex-row w-24 px-4 py-3 justify-between rounded-full `}
+          style={tw`bg-blue-900 flex-row w-24 px-4 py-3 justify-between rounded-full ${
+            !destination && "opacity-50"
+          } `}
         >
           <Icon name="car" type="font-awesome" color="white" size={16} />
           <Text style={tw`text-white text-center`}>Rides</Text>

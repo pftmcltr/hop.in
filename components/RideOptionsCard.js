@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   SafeAreaView,
@@ -11,10 +11,61 @@ import { useNavigation } from "@react-navigation/native";
 import { Icon } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
 import { redCar, yellowCar, greyCar } from "../imgs/image";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectDestination, selectOrigin } from "../slices/navSlice";
+
+const hopTypes = [
+  {
+    id: "HOP-X-1",
+    title: "Hop Casual",
+    multiplier: 0.72,
+    icon: greyCar,
+    addedTime: 1.4,
+  },
+  {
+    id: "HOP-X-2",
+    title: "Hop Lux",
+    multiplier: 1.49,
+    icon: redCar,
+    addedTime: 1.2,
+  },
+  {
+    id: "HOP-X-3",
+    title: "Hop Service",
+    multiplier: 2.77,
+    icon: yellowCar,
+    addedTime: 2.2,
+  },
+];
 
 const RideOptionsCard = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(null);
+  const origin = useSelector(selectOrigin);
+  const destination = useSelector(selectDestination);
+  const [directionsData, setDirectionsData] = useState({
+    distance: 0,
+    formattedTime: "",
+  });
+
+  useEffect(() => {
+    try {
+      const loadData = async () => {
+        {
+          const response = await axios.get(
+            `http://open.mapquestapi.com/directions/v2/route?key=nwAIOKaGialymGqB0VkJuysIrSacydsq&from=${origin.lat},${origin.lng}&to=${destination.lat},${destination.lng}`
+          );
+
+          setDirectionsData(response.data.route);
+        }
+      };
+
+      loadData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [origin, destination]);
 
   const handleAlert = () => {
     alert(
@@ -22,51 +73,28 @@ const RideOptionsCard = () => {
     );
   };
 
-  const uberTypes = [
-    {
-      id: "UBER-X-1",
-      title: "Hop Casual",
-      multiplier: 1.2,
-      icon: greyCar,
-      estimatedTime: 35,
-    },
-    {
-      id: "UBER-X-2",
-      title: "Hop Lux",
-      multiplier: 1.6,
-      icon: redCar,
-      estimatedTime: 25,
-    },
-    {
-      id: "UBER-X-3",
-      title: "Hop Service",
-      multiplier: 3.9,
-      icon: yellowCar,
-      estimatedTime: 75,
-    },
-  ];
-
   return (
     <SafeAreaView style={tw`bg-gray-900 flex-grow`}>
       <View>
         <TouchableOpacity
           onPress={() => navigation.navigate("NavigateCard")}
-          style={[tw`absolute top-5 left-6 z-50`]}
+          style={[tw`absolute top-5 left-4 z-50`]}
         >
           <Icon name="chevron-left" color="white" type="fontawesome" />
         </TouchableOpacity>
         <Text style={tw`text-center text-white p-5 text-xl`}>
-          Select a Ride - 28.4 km
+          Select a Ride - {directionsData.distance.toFixed(1)}
+          &nbsp;km.
         </Text>
       </View>
 
       <FlatList
-        data={uberTypes}
+        data={hopTypes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => setSelected(item)}
-            style={tw`flex-row items-center justify-between px-7 ${
+            style={tw`flex-row items-center justify-between px-5 ${
               item.id === selected?.id && "bg-gray-700"
             }`}
           >
@@ -79,10 +107,19 @@ const RideOptionsCard = () => {
                 {item.title}
               </Text>
               <Text style={tw`text-gray-400`}>
-                Travel time: {item.estimatedTime} min.
+                Travel time: &nbsp;
+                {parseInt(directionsData.formattedTime.substring(0, 2) * 60) +
+                  parseInt(
+                    directionsData.formattedTime.substring(3, 5) *
+                      item.addedTime
+                  )}
+                &nbsp;min.
               </Text>
             </View>
-            <Text style={tw`text-xl text-white`}>{40 * item.multiplier} €</Text>
+            <Text style={tw`text-xl text-white`}>
+              {(directionsData.distance * item.multiplier).toFixed(1)}
+              &nbsp;€
+            </Text>
           </TouchableOpacity>
         )}
       />

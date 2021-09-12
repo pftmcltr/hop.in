@@ -14,6 +14,7 @@ import NavOptions from "../components/NavOptions";
 import NavFavourites from "../components/NavFavourites";
 import axios from "axios";
 import { selectOrigin } from "../slices/navSlice";
+import { SearchBar } from "react-native-elements";
 
 const HomeScreen = () => {
   const [query, setQuery] = useState("");
@@ -56,7 +57,7 @@ const HomeScreen = () => {
         <Text style={tw`text-4xl py-7 font-bold text-white`}>HOP.IN</Text>
         <TextInput
           placeholderTextColor="gray"
-          placeholder="From Where? (approximate location)"
+          placeholder="Where are you?"
           style={tw`p-3 my-2 text-base border border-gray-500 rounded-md text-white`}
           onChangeText={(input) => changeHandler(input)}
           value={query}

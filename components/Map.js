@@ -28,25 +28,12 @@ const Map = () => {
       initialRegion={{
         latitude: origin.lat,
         longitude: origin.lng,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
       }}
     >
-      <Polyline
-        coordinates={[
-          { latitude: 37.8025259, longitude: -122.4351431 },
-          { latitude: 37.7896386, longitude: -122.421646 },
-          { latitude: 37.7665248, longitude: -122.4161628 },
-          { latitude: 37.7734153, longitude: -122.4577787 },
-          { latitude: 37.7948605, longitude: -122.4596065 },
-          { latitude: 37.8025259, longitude: -122.4351431 },
-        ]}
-        strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-        strokeWidth={2}
-      />
-
       {origin && (
-        <Marker
+        <MapView.Marker
           icon={{
             uri: "https://cdn1.iconfinder.com/data/icons/maps-and-navigation-free/32/Maps_Maps_Navigation_Gps_Pin_Location-02-128.png",
           }}
@@ -61,7 +48,7 @@ const Map = () => {
       )}
 
       {destination && (
-        <Marker
+        <MapView.Marker
           icon={{
             uri: "https://cdn1.iconfinder.com/data/icons/maps-and-navigation-free/32/Maps_Maps_Navigation_Gps_Pin_Location-02-128.png",
           }}
