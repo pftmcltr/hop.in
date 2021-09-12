@@ -35,7 +35,7 @@ const NavFavourites = () => {
       data={data}
       keyExtractor={(item) => item.id.toString()}
       ItemSeparatorComponent={() => {
-        return <View style={[tw`bg-gray-200`, { height: 0.5 }]} />;
+        return <View style={[tw`bg-gray-700`, { height: 0.5 }]} />;
       }}
       renderItem={({ item: { icon, destination, location, lat, lng } }) => (
         <TouchableOpacity
@@ -46,15 +46,15 @@ const NavFavourites = () => {
           style={tw`flex-row items-center py-5`}
         >
           <Icon
-            style={tw`mr-4 rounded-full bg-blue-200 p-3`}
+            style={tw`mr-4 rounded-full bg-blue-900 p-3`}
             name={icon}
             color="white"
             size={18}
             type="ionicon"
           />
           <View>
-            <Text style={tw`font-semibold text-lg`}>{location}</Text>
-            <Text style={tw`text-gray-500`}>{destination}</Text>
+            <Text style={tw`font-semibold text-white text-lg`}>{location}</Text>
+            <Text style={tw`text-gray-400`}>{destination}</Text>
           </View>
         </TouchableOpacity>
       )}

@@ -47,15 +47,17 @@ const RideOptionsCard = () => {
   ];
 
   return (
-    <SafeAreaView style={tw`bg-white flex-grow`}>
+    <SafeAreaView style={tw`bg-gray-900 flex-grow`}>
       <View>
         <TouchableOpacity
           onPress={() => navigation.navigate("NavigateCard")}
-          style={[tw`absolute  top-5 left-6 z-50`]}
+          style={[tw`absolute top-5 left-6 z-50`]}
         >
-          <Icon name="chevron-left" type="fontawesome" />
+          <Icon name="chevron-left" color="white" type="fontawesome" />
         </TouchableOpacity>
-        <Text style={tw`text-center p-5 text-xl`}>Select a Ride - 28.4 km</Text>
+        <Text style={tw`text-center text-white p-5 text-xl`}>
+          Select a Ride - 28.4 km
+        </Text>
       </View>
 
       <FlatList
@@ -65,7 +67,7 @@ const RideOptionsCard = () => {
           <TouchableOpacity
             onPress={() => setSelected(item)}
             style={tw`flex-row items-center justify-between px-7 ${
-              item.id === selected?.id && "bg-blue-100"
+              item.id === selected?.id && "bg-gray-700"
             }`}
           >
             <Image
@@ -73,17 +75,21 @@ const RideOptionsCard = () => {
               source={item.icon}
             />
             <View style={tw`-ml-6`}>
-              <Text style={tw`text-xl font-semibold`}>{item.title}</Text>
-              <Text>Travel time: {item.estimatedTime} min.</Text>
+              <Text style={tw`text-xl text-white font-semibold`}>
+                {item.title}
+              </Text>
+              <Text style={tw`text-gray-400`}>
+                Travel time: {item.estimatedTime} min.
+              </Text>
             </View>
-            <Text style={tw`text-xl`}>{40 * item.multiplier} €</Text>
+            <Text style={tw`text-xl text-white`}>{40 * item.multiplier} €</Text>
           </TouchableOpacity>
         )}
       />
-      <View style={tw`mt-auto border-t border-gray-200`}>
+      <View style={tw`mt-auto border-t border-gray-700`}>
         <TouchableOpacity
           disabled={!selected}
-          style={tw`bg-blue-900 py-3 m-3 ${!selected && "bg-gray-300"}`}
+          style={tw`bg-blue-900 py-3 m-3 ${!selected && "bg-gray-800"}`}
           onPress={handleAlert}
         >
           <Text style={tw`text-center text-white text-xl`}>Select a car</Text>

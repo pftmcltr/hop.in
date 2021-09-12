@@ -34,16 +34,18 @@ const NavOptions = () => {
       data={data}
       numColumns={1}
       renderItem={({ item }) => (
-        <View style={tw`${!origin && "opacity-50"}`}>
+        <View style={tw`${!origin && "opacity-70"} `}>
           <TouchableOpacity
             disabled={!origin}
             onPress={() => Navigation.navigate(item.screen)}
-            style={tw`flex-row items-center rounded-md justify-between bg-blue-100 my-2 px-5 py-2 `}
+            style={tw`flex-row items-center rounded-md justify-between bg-gray-50 my-2 px-5 py-2 ${
+              !origin && "bg-gray-700"
+            } `}
           >
             <View>
-              <Text style={tw`text-xl font-semibold`}>{item.title}</Text>
+              <Text style={tw`text-2xl font-semibold`}>{item.title}</Text>
               <Icon
-                style={tw`p-2 bg-blue-900 rounded-full w-full mt-4`}
+                style={tw`p-2 bg-blue-900 rounded-full mt-4`}
                 name="arrowright"
                 color="white"
                 type="antdesign"

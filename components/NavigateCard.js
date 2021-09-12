@@ -48,12 +48,14 @@ const NavigateCard = () => {
   };
 
   return (
-    <SafeAreaView style={[tw`bg-white flex-1`]}>
-      <Text style={tw`text-center p-5 text-xl`}>Hello, stranger!</Text>
-      <View style={tw`border-t border-gray-200`}>
+    <SafeAreaView style={[tw`bg-gray-900 flex-1`]}>
+      <Text style={tw`text-center mt-5 text-white text-xl`}>
+        Go somewhere new!
+      </Text>
+      <View>
         <TextInput
-          autoCompleteType="street-address"
-          style={tw`p-3 mt-5 mb-1 mx-4 text-base border border-gray-200 rounded-md text-black`}
+          placeholderTextColor="gray"
+          style={tw`p-3 mt-5 mb-1 mx-4 text-base border border-gray-500 rounded-md text-white`}
           placeholder="Where to? (approximate location)"
           onChangeText={(input) => changeHandler(input)}
           value={query}
@@ -64,22 +66,22 @@ const NavigateCard = () => {
               data={suggestions}
               keyExtractor={(_, id) => id.toString()}
               renderItem={({ item }) => (
-                <View style={tw`flex-row mx-4 my-1 p-5 bg-gray-100`}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      dispatch(
-                        setDestination({
-                          lat: parseInt(item.lat),
-                          lng: parseInt(item.lon),
-                        })
-                      );
-                      setSuggestions([]);
-                      navigation.navigate("RideOptionsCard");
-                    }}
-                  >
-                    <Text>{item.display_name}</Text>
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(
+                      setDestination({
+                        lat: parseFloat(item.lat),
+                        lng: parseFloat(item.lon),
+                      })
+                    );
+                    setSuggestions([]);
+                    navigation.navigate("RideOptionsCard");
+                  }}
+                >
+                  <View style={tw`flex-row mx-4 my-1 p-5 bg-gray-800`}>
+                    <Text style={tw`text-white`}>{item.display_name}</Text>
+                  </View>
+                </TouchableOpacity>
               )}
             />
           </View>
@@ -91,7 +93,7 @@ const NavigateCard = () => {
       </View>
 
       <View
-        style={tw`flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-200`}
+        style={tw`flex-row bg-gray-900 justify-evenly py-2 mt-auto border-t border-gray-700`}
       >
         <TouchableOpacity
           onPress={() => navigation.navigate("RideOptionsCard")}
@@ -103,7 +105,7 @@ const NavigateCard = () => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("EatScreen")}
-          style={tw`bg-gray-100 flex-row w-24 px-4 py-3 justify-evenly rounded-full `}
+          style={tw`bg-gray-700 flex-row w-24 px-4 py-3 justify-evenly rounded-full `}
         >
           <Icon
             name="fast-food-outline"

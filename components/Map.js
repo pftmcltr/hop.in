@@ -32,7 +32,7 @@ const Map = () => {
         longitudeDelta: 0.05,
       }}
     >
-      {/* <Polyline
+      <Polyline
         coordinates={[
           { latitude: 37.8025259, longitude: -122.4351431 },
           { latitude: 37.7896386, longitude: -122.421646 },
@@ -42,16 +42,8 @@ const Map = () => {
           { latitude: 37.8025259, longitude: -122.4351431 },
         ]}
         strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-        strokeColors={[
-          "#7F0000",
-          "#00000000", // no color, creates a "long" gradient between the previous and next coordinate
-          "#B24112",
-          "#E5845C",
-          "#238C23",
-          "#7F0000",
-        ]}
-        strokeWidth={20}
-      /> */}
+        strokeWidth={2}
+      />
 
       {origin && (
         <Marker
