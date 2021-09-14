@@ -4,7 +4,9 @@ import {
   SafeAreaView,
   View,
   TextInput,
+  ScrollView,
   TouchableOpacity,
+  Keyboard,
   FlatList,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +16,7 @@ import NavOptions from "../components/NavOptions";
 import NavFavourites from "../components/NavFavourites";
 import axios from "axios";
 import { selectOrigin } from "../slices/navSlice";
-import { SearchBar } from "react-native-elements";
+import { API_BASE_URL } from "../apis/locationIQ";
 
 const HomeScreen = () => {
   const [query, setQuery] = useState("");
@@ -27,9 +29,7 @@ const HomeScreen = () => {
       try {
         const loadData = async () => {
           {
-            const response = await axios.get(
-              `https://api.locationiq.com/v1/autocomplete.php?key=pk.c44e97d8fe6625ec0354e739a223945c&q=${query}&limit=5`
-            );
+            const response = await axios.get(`${API_BASE_URL}${query}&limit=5`);
 
             setSuggestions(response.data.slice(0, 3));
           }
@@ -40,7 +40,9 @@ const HomeScreen = () => {
         console.log(error);
       }
     }, 500);
-    return () => clearTimeout(timeOutId);
+    return () => {
+      clearTimeout(timeOutId);
+    };
   }, [query]);
 
   const changeHandler = (text) => {
@@ -48,13 +50,18 @@ const HomeScreen = () => {
   };
 
   const alertHandler = () => {
-    alert(origin.lat);
+    alert("This is a text");
   };
 
   return (
-    <SafeAreaView style={tw`bg-gray-900 h-full`}>
-      <View style={tw`mx-5 mt-10`}>
-        <Text style={tw`text-4xl py-7 font-bold text-white`}>HOP.IN</Text>
+    <SafeAreaView style={tw`bg-gray-900 flex-1`}>
+      {/* LOGO */}
+      <View style={tw`mx-5 mt-14 mb-5`}>
+        <Text style={tw`text-4xl font-bold text-white`}>HOP.IN</Text>
+      </View>
+
+      {/* SearchBox */}
+      <View style={tw`mx-5`}>
         <TextInput
           placeholderTextColor="gray"
           placeholder="Where are you?"
@@ -64,7 +71,7 @@ const HomeScreen = () => {
         />
 
         {suggestions && (
-          <View style={tw``}>
+          <View>
             <FlatList
               data={suggestions}
               keyExtractor={(_, id) => id.toString()}
@@ -75,6 +82,7 @@ const HomeScreen = () => {
                       setOrigin({
                         lat: parseFloat(item.lat),
                         lng: parseFloat(item.lon),
+                        address: item.display_name,
                       })
                     );
                     setSuggestions([]);
@@ -88,18 +96,21 @@ const HomeScreen = () => {
             />
           </View>
         )}
-      </View>
 
-      <View style={tw`mx-5`}>
+        {/* Cards */}
         <NavOptions />
+
+        {/* Saved Addresses */}
         <Text style={tw`text-base mt-10 font-bold text-gray-400`}>
           Saved addresses
         </Text>
-        <NavFavourites />
-      </View>
-      <View style={tw` mx-5 mb-auto`}>
+        <View pointerEvents="none">
+          <NavFavourites />
+        </View>
+
+        {/* Instructions Button */}
         <TouchableOpacity
-          style={tw`border border-yellow-500 py-2`}
+          style={tw`border bg-gray-900 py-3 my-2 border-yellow-500`}
           onPress={alertHandler}
         >
           <Text style={tw`text-center text-yellow-500 font-bold text-lg`}>

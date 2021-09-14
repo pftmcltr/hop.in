@@ -28,14 +28,14 @@ const Map = () => {
       initialRegion={{
         latitude: origin.lat,
         longitude: origin.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
       }}
     >
       {origin && (
         <MapView.Marker
           icon={{
-            uri: "https://cdn1.iconfinder.com/data/icons/maps-and-navigation-free/32/Maps_Maps_Navigation_Gps_Pin_Location-02-128.png",
+            uri: "https://cdn0.iconfinder.com/data/icons/3d-web-isometric-vol-2/256/3d-web-isometric-vol-2/1000/Location_Pin.png",
           }}
           coordinate={{
             latitude: origin.lat,
@@ -47,10 +47,61 @@ const Map = () => {
         />
       )}
 
+      <MapView.Marker
+        icon={{
+          uri: "https://cdn0.iconfinder.com/data/icons/isometric-city-basic-transport/48/car-front-01-128.png",
+        }}
+        coordinate={{
+          latitude: origin.lat + 0.002,
+          longitude: origin.lng - 0.003,
+        }}
+        title="Car1"
+        description="Car no.1"
+        identifier="car1"
+      />
+      <MapView.Marker
+        icon={{
+          uri: "https://cdn0.iconfinder.com/data/icons/isometric-city-basic-transport/48/car-front-01-128.png",
+        }}
+        coordinate={{
+          latitude: origin.lat - 0.001,
+          longitude: origin.lng + 0.003,
+        }}
+        title="Car2"
+        description="Car no.2"
+        identifier="car2"
+      />
+
+      <MapView.Marker
+        icon={{
+          uri: "https://cdn0.iconfinder.com/data/icons/isometric-city-basic-transport/48/car-front-01-128.png",
+        }}
+        coordinate={{
+          latitude: origin.lat - 0.003,
+          longitude: origin.lng - 0.003,
+        }}
+        title="Car3"
+        description="Car no.3"
+        identifier="car3"
+      />
+
+      <MapView.Marker
+        icon={{
+          uri: "https://cdn0.iconfinder.com/data/icons/isometric-city-basic-transport/48/car-front-01-128.png",
+        }}
+        coordinate={{
+          latitude: origin.lat - 0.001,
+          longitude: origin.lng - 0.002,
+        }}
+        title="Car4"
+        description="Car no.4"
+        identifier="car4"
+      />
+
       {destination && (
         <MapView.Marker
           icon={{
-            uri: "https://cdn1.iconfinder.com/data/icons/maps-and-navigation-free/32/Maps_Maps_Navigation_Gps_Pin_Location-02-128.png",
+            uri: "https://cdn0.iconfinder.com/data/icons/3d-web-isometric-vol-2/256/3d-web-isometric-vol-2/1000/Location_Pin.png",
           }}
           coordinate={{
             latitude: destination.lat,

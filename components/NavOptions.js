@@ -2,9 +2,8 @@ import React from "react";
 import { FlatList, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectOrigin } from "../slices/navSlice";
-
 import { Icon } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
 import { camaro, restaurant } from "../imgs/image";
@@ -27,6 +26,7 @@ const data = [
 const NavOptions = () => {
   const Navigation = useNavigation();
   const origin = useSelector(selectOrigin);
+  const dispatch = useDispatch();
 
   return (
     <FlatList
@@ -37,7 +37,9 @@ const NavOptions = () => {
         <View style={tw`${!origin && "opacity-70"} `}>
           <TouchableOpacity
             disabled={!origin}
-            onPress={() => Navigation.navigate(item.screen)}
+            onPress={() => {
+              Navigation.navigate(item.screen);
+            }}
             style={tw`flex-row items-center rounded-md justify-between bg-gray-50 my-2 px-5 py-2 ${
               !origin && "bg-gray-700"
             } `}

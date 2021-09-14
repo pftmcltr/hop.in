@@ -6,14 +6,20 @@ import {
   SafeAreaView,
   View,
   FlatList,
+  SectionList,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { selectDestination, setDestination } from "../slices/navSlice";
+import {
+  selectDestination,
+  setActiveEats,
+  setDestination,
+} from "../slices/navSlice";
 import tw from "tailwind-react-native-classnames";
 import NavFavourites from "./NavFavourites";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { API_BASE_URL } from "../apis/locationIQ";
 
 const NavigateCard = () => {
   const navigation = useNavigation();
@@ -27,9 +33,7 @@ const NavigateCard = () => {
       try {
         const loadData = async () => {
           {
-            const response = await axios.get(
-              `https://api.locationiq.com/v1/autocomplete.php?key=pk.c44e97d8fe6625ec0354e739a223945c&q=${query}&limit=5`
-            );
+            const response = await axios.get(`${API_BASE_URL}${query}&limit=5`);
 
             setSuggestions(response.data.slice(0, 2));
           }
@@ -48,66 +52,66 @@ const NavigateCard = () => {
   };
 
   return (
-    <SafeAreaView style={[tw`bg-gray-900 flex-1`]}>
-      <Text style={tw`text-center mt-5 text-white text-xl`}>
-        Go somewhere new!
-      </Text>
-      <View>
-        <TextInput
-          placeholderTextColor="gray"
-          style={tw`p-3 mt-5 mb-1 mx-4 text-base border border-gray-500 rounded-md text-white`}
-          placeholder="Where to?"
-          onChangeText={(input) => changeHandler(input)}
-          value={query}
-        />
-        {suggestions && (
-          <View style={tw``}>
-            <FlatList
-              data={suggestions}
-              keyExtractor={(_, id) => id.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch(
-                      setDestination({
-                        lat: parseFloat(item.lat),
-                        lng: parseFloat(item.lon),
-                      })
-                    );
-                    setSuggestions([]);
-                    navigation.navigate("RideOptionsCard");
-                  }}
-                >
-                  <View style={tw`flex-row mx-4 my-1 p-5 bg-gray-800`}>
-                    <Text style={tw`text-white`}>{item.display_name}</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        )}
-      </View>
+    <SafeAreaView style={tw`bg-gray-900 flex-1`}>
+      <View style={tw`flex-1`}>
+        <Text style={tw`text-center mt-5 text-white text-xl`}>
+          Go somewhere new!
+        </Text>
+        <View>
+          <TextInput
+            placeholderTextColor="gray"
+            style={tw`p-3 mt-5 mb-1 mx-4 text-base border border-gray-500 rounded-md text-white`}
+            placeholder="Where to?"
+            onChangeText={(input) => changeHandler(input)}
+            value={query}
+          />
+          {suggestions && (
+            <View style={tw``}>
+              <FlatList
+                data={suggestions}
+                keyExtractor={(_, id) => id.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      dispatch(
+                        setDestination({
+                          lat: parseFloat(item.lat),
+                          lng: parseFloat(item.lon),
+                        })
+                      );
+                      setSuggestions([]);
+                      navigation.navigate("RideOptionsCard");
+                    }}
+                  >
+                    <View style={tw`flex-row mx-4 my-1 p-5 bg-gray-800`}>
+                      <Text style={tw`text-white`}>{item.display_name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          )}
+        </View>
 
-      <View style={tw`mx-4`}>
-        <NavFavourites />
+        <View style={tw`mx-4`}>
+          <NavFavourites />
+        </View>
       </View>
 
       <View
-        style={tw`flex-row bg-gray-900 justify-evenly py-2 mt-auto border-t border-gray-700`}
+        style={tw`flex-row bg-gray-900 justify-evenly py-3 border-t border-gray-700`}
       >
         <TouchableOpacity
-          disabled={!destination}
-          onPress={() => navigation.navigate("RideOptionsCard")}
-          style={tw`bg-blue-900 flex-row w-24 px-4 py-3 justify-between rounded-full ${
-            !destination && "opacity-50"
-          } `}
+          style={tw`bg-blue-900 border border-white flex-row w-24 px-4 py-3 justify-between rounded-full`}
         >
           <Icon name="car" type="font-awesome" color="white" size={16} />
           <Text style={tw`text-white text-center`}>Rides</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("EatScreen")}
+          onPress={() => {
+            navigation.navigate("EatScreen");
+          }}
           style={tw`bg-gray-700 flex-row w-24 px-4 py-3 justify-evenly rounded-full `}
         >
           <Icon

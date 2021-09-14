@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
   FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +15,7 @@ import { redCar, yellowCar, greyCar } from "../imgs/image";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectDestination, selectOrigin } from "../slices/navSlice";
+import { API_BASE_URL } from "../apis/openMapConfig";
 
 const hopTypes = [
   {
@@ -44,6 +46,9 @@ const RideOptionsCard = () => {
   const [selected, setSelected] = useState(null);
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   const [directionsData, setDirectionsData] = useState({
     distance: 0,
     formattedTime: "",
@@ -53,11 +58,17 @@ const RideOptionsCard = () => {
     try {
       const loadData = async () => {
         {
+          setLoading(true);
           const response = await axios.get(
-            `http://open.mapquestapi.com/directions/v2/route?key=nwAIOKaGialymGqB0VkJuysIrSacydsq&from=${origin.lat},${origin.lng}&to=${destination.lat},${destination.lng}`
+            `${API_BASE_URL}${origin.lat},${origin.lng}&to=${destination.lat},${destination.lng}`
           );
 
-          setDirectionsData(response.data.route);
+          if (response.data.route.routeError.errorCode > 0) setError(true);
+          else {
+            setDirectionsData(response.data.route);
+          }
+
+          setLoading(false);
         }
       };
 
@@ -73,67 +84,85 @@ const RideOptionsCard = () => {
     );
   };
 
-  return (
-    <SafeAreaView style={tw`bg-gray-900 flex-grow`}>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("NavigateCard")}
-          style={[tw`absolute top-5 left-4 z-50`]}
-        >
-          <Icon name="chevron-left" color="white" type="fontawesome" />
-        </TouchableOpacity>
-        <Text style={tw`text-center text-white p-5 text-xl`}>
-          Select a Ride - {directionsData.distance.toFixed(1)}
-          &nbsp;km.
+  if (loading || error) {
+    return (
+      <SafeAreaView
+        style={tw`bg-gray-900 items-center justify-center flex-grow`}
+      >
+        <ActivityIndicator color="white" size="large" />
+        <Text style={tw`text-xl text-center mt-5 text-white`}>
+          {error
+            ? "There are no routes available. Press the menu button to turn back."
+            : "Wait a sec..."}
         </Text>
-      </View>
-
-      <FlatList
-        data={hopTypes}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+      </SafeAreaView>
+    );
+  } else
+    return (
+      <SafeAreaView style={tw`bg-gray-900 flex-1`}>
+        <View style={tw`flex-1`}>
           <TouchableOpacity
-            onPress={() => setSelected(item)}
-            style={tw`flex-row items-center justify-between px-5 ${
-              item.id === selected?.id && "bg-gray-700"
-            }`}
+            onPress={() => navigation.navigate("NavigateCard")}
+            style={[tw`absolute top-6 left-4 z-50`]}
           >
-            <Image
-              style={{ width: 100, height: 100, resizeMode: "contain" }}
-              source={item.icon}
-            />
-            <View style={tw`-ml-6`}>
-              <Text style={tw`text-xl text-white font-semibold`}>
-                {item.title}
-              </Text>
-              <Text style={tw`text-gray-400`}>
-                Travel time: &nbsp;
-                {parseInt(directionsData.formattedTime.substring(0, 2) * 60) +
-                  parseInt(
-                    directionsData.formattedTime.substring(3, 5) *
-                      item.addedTime
-                  )}
-                &nbsp;min.
-              </Text>
-            </View>
-            <Text style={tw`text-xl text-white`}>
-              {(directionsData.distance * item.multiplier).toFixed(1)}
-              &nbsp;€
-            </Text>
+            <Icon name="chevron-left" color="white" type="fontawesome" />
           </TouchableOpacity>
-        )}
-      />
-      <View style={tw`mt-auto border-t border-gray-700`}>
-        <TouchableOpacity
-          disabled={!selected}
-          style={tw`bg-blue-900 py-3 m-3 ${!selected && "bg-gray-800"}`}
-          onPress={handleAlert}
-        >
-          <Text style={tw`text-center text-white text-xl`}>Select a car</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+          <Text style={tw`text-center text-white p-5 text-xl`}>
+            Select a Ride - {directionsData.distance?.toFixed(1)}
+            &nbsp;km.
+          </Text>
+
+          <FlatList
+            data={hopTypes}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setSelected(item);
+                }}
+                style={tw`flex-row items-center justify-between px-5 ${
+                  item.id === selected?.id && "bg-gray-700"
+                }`}
+              >
+                <Image
+                  style={{ width: 100, height: 100, resizeMode: "contain" }}
+                  source={item.icon}
+                />
+                <View style={tw`-ml-6`}>
+                  <Text style={tw`text-xl text-white font-semibold`}>
+                    {item.title}
+                  </Text>
+                  <Text style={tw`text-gray-400`}>
+                    Travel time: &nbsp;
+                    {parseInt(
+                      directionsData.formattedTime?.substring(0, 2) * 60
+                    ) +
+                      parseInt(
+                        directionsData.formattedTime?.substring(3, 5) *
+                          item.addedTime
+                      )}
+                    &nbsp;min.
+                  </Text>
+                </View>
+                <Text style={tw`text-xl text-white`}>
+                  {(directionsData.distance * item.multiplier).toFixed(1)}
+                  &nbsp;€
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+        <View style={tw`border-t border-gray-700`}>
+          <TouchableOpacity
+            disabled={!selected}
+            style={tw`bg-blue-900 py-3 m-3 ${!selected && "bg-gray-800"}`}
+            onPress={handleAlert}
+          >
+            <Text style={tw`text-center text-white text-xl`}>Select a car</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
 };
 
 export default RideOptionsCard;

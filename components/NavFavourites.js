@@ -1,5 +1,11 @@
 import React from "react";
-import { FlatList, Text, View, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  TouchableOpacity,
+  SectionList,
+} from "react-native";
 import { Icon } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
 import { selectOrigin, setDestination } from "../slices/navSlice";
@@ -33,7 +39,7 @@ const NavFavourites = () => {
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(_, id) => id.toString()}
       ItemSeparatorComponent={() => {
         return <View style={[tw`bg-gray-700`, { height: 0.5 }]} />;
       }}
@@ -42,6 +48,7 @@ const NavFavourites = () => {
           disabled={!origin}
           onPress={() => {
             dispatch(setDestination({ lat, lng }));
+            origin && navigation.navigate("RideOptionsCard");
           }}
           style={tw`flex-row items-center py-5`}
         >
