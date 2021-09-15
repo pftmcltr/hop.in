@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Text,
   SafeAreaView,
@@ -10,7 +10,6 @@ import tw from "tailwind-react-native-classnames";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/core";
 import Restaurants from "../components/Restaurants";
-
 import { useSelector } from "react-redux";
 import { selectOrigin } from "../slices/navSlice";
 
@@ -24,9 +23,9 @@ const EatScreen = () => {
         <View style={tw`flex-row m-4 justify-center items-center`}>
           <TouchableOpacity
             onPress={() => navigation.navigate("HomeScreen")}
-            style={tw`p-4  text-base border border-blue-900 rounded-md text-white`}
+            style={tw`p-4  text-base border border-indigo-900 rounded-md text-white`}
           >
-            <Icon name="menu" size={20} color="#1E3A8A" />
+            <Icon name="menu" size={20} color="#312E81" />
           </TouchableOpacity>
           <View
             style={tw`p-3  text-base border border-gray-500 rounded-md text-white flex-1 ml-2`}
@@ -56,7 +55,7 @@ const EatScreen = () => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("EatScreen")}
-          style={tw`bg-blue-900 border border-white flex-row w-24 px-4 py-3 justify-evenly rounded-full `}
+          style={tw`bg-indigo-900 border border-white flex-row w-24 px-4 py-3 justify-evenly rounded-full `}
         >
           <Icon
             name="fast-food-outline"

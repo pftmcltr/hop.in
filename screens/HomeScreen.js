@@ -4,25 +4,24 @@ import {
   SafeAreaView,
   View,
   TextInput,
-  ScrollView,
-  TouchableOpacity,
   Keyboard,
+  Image,
+  TouchableOpacity,
   FlatList,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setOrigin } from "../slices/navSlice";
 import tw from "tailwind-react-native-classnames";
 import NavOptions from "../components/NavOptions";
 import NavFavourites from "../components/NavFavourites";
 import axios from "axios";
-import { selectOrigin } from "../slices/navSlice";
 import { API_BASE_URL } from "../apis/locationIQ";
+import { logo } from "../imgs/image";
 
 const HomeScreen = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const dispatch = useDispatch();
-  const origin = useSelector(selectOrigin);
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -49,18 +48,19 @@ const HomeScreen = () => {
     setQuery(text);
   };
 
-  const alertHandler = () => {
-    alert("This is a text");
-  };
-
   return (
     <SafeAreaView style={tw`bg-gray-900 flex-1`}>
       {/* LOGO */}
-      <View style={tw`mx-5 mt-14 mb-5`}>
-        <Text style={tw`text-4xl font-bold text-white`}>HOP.IN</Text>
+      <View style={tw` mt-14 mb-4`}>
+        <Image
+          source={logo}
+          resizeMode="contain"
+          style={{ height: 100, width: 200 }}
+        />
       </View>
 
       {/* SearchBox */}
+
       <View style={tw`mx-5`}>
         <TextInput
           placeholderTextColor="gray"
@@ -73,6 +73,7 @@ const HomeScreen = () => {
         {suggestions && (
           <View>
             <FlatList
+              keyboardShouldPersistTaps="always"
               data={suggestions}
               keyExtractor={(_, id) => id.toString()}
               renderItem={({ item }) => (
@@ -86,6 +87,7 @@ const HomeScreen = () => {
                       })
                     );
                     setSuggestions([]);
+                    Keyboard.dismiss();
                   }}
                 >
                   <View style={tw`flex-row my-1 p-5 bg-gray-800`}>
@@ -107,16 +109,6 @@ const HomeScreen = () => {
         <View pointerEvents="none">
           <NavFavourites />
         </View>
-
-        {/* Instructions Button */}
-        <TouchableOpacity
-          style={tw`border bg-gray-900 py-3 my-2 border-yellow-500`}
-          onPress={alertHandler}
-        >
-          <Text style={tw`text-center text-yellow-500 font-bold text-lg`}>
-            Instructions for beta users
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 import { Provider } from "react-redux";
 import Store from "./store";

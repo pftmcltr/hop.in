@@ -1,8 +1,7 @@
 import React from "react";
 import { FlatList, Text, TouchableOpacity, View, Image } from "react-native";
-
 import { useNavigation } from "@react-navigation/native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectOrigin } from "../slices/navSlice";
 import { Icon } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
@@ -26,7 +25,6 @@ const data = [
 const NavOptions = () => {
   const Navigation = useNavigation();
   const origin = useSelector(selectOrigin);
-  const dispatch = useDispatch();
 
   return (
     <FlatList
@@ -47,7 +45,7 @@ const NavOptions = () => {
             <View>
               <Text style={tw`text-2xl font-semibold`}>{item.title}</Text>
               <Icon
-                style={tw`p-2 bg-blue-900 rounded-full mt-4`}
+                style={tw`p-2 bg-indigo-900 rounded-full mt-4`}
                 name="arrowright"
                 color="white"
                 type="antdesign"

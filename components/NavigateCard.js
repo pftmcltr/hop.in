@@ -4,16 +4,12 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
+  Keyboard,
   View,
   FlatList,
-  SectionList,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectDestination,
-  setActiveEats,
-  setDestination,
-} from "../slices/navSlice";
+import { useDispatch } from "react-redux";
+import { setDestination } from "../slices/navSlice";
 import tw from "tailwind-react-native-classnames";
 import NavFavourites from "./NavFavourites";
 import { Icon } from "react-native-elements";
@@ -24,7 +20,6 @@ import { API_BASE_URL } from "../apis/locationIQ";
 const NavigateCard = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const destination = useSelector(selectDestination);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -35,7 +30,7 @@ const NavigateCard = () => {
           {
             const response = await axios.get(`${API_BASE_URL}${query}&limit=5`);
 
-            setSuggestions(response.data.slice(0, 2));
+            setSuggestions(response.data.slice(0, 1));
           }
         };
 
@@ -57,6 +52,7 @@ const NavigateCard = () => {
         <Text style={tw`text-center mt-5 text-white text-xl`}>
           Go somewhere new!
         </Text>
+
         <View>
           <TextInput
             placeholderTextColor="gray"
@@ -68,6 +64,7 @@ const NavigateCard = () => {
           {suggestions && (
             <View style={tw``}>
               <FlatList
+                keyboardShouldPersistTaps="always"
                 data={suggestions}
                 keyExtractor={(_, id) => id.toString()}
                 renderItem={({ item }) => (

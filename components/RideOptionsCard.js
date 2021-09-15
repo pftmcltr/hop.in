@@ -155,7 +155,7 @@ const RideOptionsCard = () => {
         <View style={tw`border-t border-gray-700`}>
           <TouchableOpacity
             disabled={!selected}
-            style={tw`bg-blue-900 py-3 m-3 ${!selected && "bg-gray-800"}`}
+            style={tw`bg-indigo-900 py-3 m-3 ${!selected && "bg-gray-800"}`}
             onPress={handleAlert}
           >
             <Text style={tw`text-center text-white text-xl`}>Select a car</Text>

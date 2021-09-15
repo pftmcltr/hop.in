@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import axios from "axios";
 import { BEARER_TOKEN, API_BASE_URL } from "../apis/yelpConfig";
 import { useSelector } from "react-redux";
-import { selectActiveEats, selectOrigin } from "../slices/navSlice";
+import { selectOrigin } from "../slices/navSlice";
 import tw from "tailwind-react-native-classnames";
 import defaultImage from "../imgs/default-source.jpg";
 
@@ -20,6 +13,12 @@ const Restaurants = () => {
   const origin = useSelector(selectOrigin);
   const [isLoading, setIsLoading] = useState(true);
   const defaultImageURI = Image.resolveAssetSource(defaultImage).uri;
+
+  const handlePress = () => {
+    alert(
+      "I know, this restaurant seems nice. Too bad you can't use Hop.in to place an order. Because it's a fake app. A fake app with real restaurants. *evil laugh*"
+    );
+  };
 
   useEffect(() => {
     try {
@@ -66,6 +65,7 @@ const Restaurants = () => {
         <TouchableOpacity
           disabled={item.is_closed}
           style={tw`m-4 flex-grow ${item.is_closed && "opacity-50"}`}
+          onPress={handlePress}
         >
           <Image
             resizeMode="cover"

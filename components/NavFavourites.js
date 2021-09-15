@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-  SectionList,
-} from "react-native";
+import { FlatList, Text, View, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
 import { selectOrigin, setDestination } from "../slices/navSlice";
@@ -53,7 +47,7 @@ const NavFavourites = () => {
           style={tw`flex-row items-center py-5`}
         >
           <Icon
-            style={tw`mr-4 rounded-full bg-blue-900 p-3`}
+            style={tw`mr-4 rounded-full bg-indigo-900 p-3`}
             name={icon}
             color="white"
             size={18}

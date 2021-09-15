@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import MapView, { Marker, Polyline } from "react-native-maps";
+import MapView from "react-native-maps";
 import tw from "tailwind-react-native-classnames";
 import { selectDestination, selectOrigin } from "../slices/navSlice";
 import { useSelector } from "react-redux";
