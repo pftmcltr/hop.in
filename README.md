@@ -1,6 +1,6 @@
 # HOP.In - An app like Uber, but worse.
 
-## Open it in Expo Go: https://expo.dev/@georrgecb/hop-in
+### Open it in Expo Go: https://expo.dev/@georrgecb/hop-in
 
 #### (Soon to be published on Google Play)
 
@@ -16,9 +16,9 @@
 
 #### It would have been way easier with Google Places API, but I'm not ready yet to put my credit card info on their platform. Using other (free) maps and location APIs isn't fun, but during this process, I did learn a lot.
 
-### Tailwind>Bootstrap
+### Tailwind > Bootstrap
 
-#### Before developing this app, I wasn't familiar with Tailwind. Now I'm a big fan of it.ok
+#### Before developing this app, I wasn't familiar with Tailwind. Now I'm a big fan of it.
 
 ### Conclusions
 
