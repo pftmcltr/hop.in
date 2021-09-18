@@ -32,15 +32,14 @@ const NavOptions = () => {
       data={data}
       numColumns={1}
       renderItem={({ item }) => (
-        <View style={tw`${!origin && "opacity-70"} `}>
+        <View>
           <TouchableOpacity
-            disabled={!origin}
             onPress={() => {
-              Navigation.navigate(item.screen);
+              origin
+                ? Navigation.navigate(item.screen)
+                : alert("Please enter your location.");
             }}
-            style={tw`flex-row items-center rounded-md justify-between bg-gray-50 my-2 px-5 py-2 ${
-              !origin && "bg-gray-700"
-            } `}
+            style={tw`flex-row items-center rounded-md justify-between bg-gray-50 my-2 px-5 py-2`}
           >
             <View>
               <Text style={tw`text-2xl font-semibold`}>{item.title}</Text>
@@ -52,7 +51,7 @@ const NavOptions = () => {
               />
             </View>
             <Image
-              style={{ width: 120, height: 120, resizeMode: "contain" }}
+              style={{ width: 100, height: 100, resizeMode: "contain" }}
               source={item.image}
             />
           </TouchableOpacity>
